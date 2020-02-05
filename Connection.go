@@ -26,7 +26,7 @@ const (
 )
 
 //type ConnectionSettings map[string]map[string]interface{}
-type ConnectionSettings map[string]map[string]interface{}
+type ConnectionSettings map[string]map[string]dbus.Variant
 
 type Connection interface {
 	GetPath() dbus.ObjectPath
@@ -96,45 +96,25 @@ func (c *connection) Delete() error {
 }
 
 func (c *connection) GetSettings() (ConnectionSettings, error) {
-	var settings map[string]map[string]dbus.Variant
+	var settings ConnectionSettings
 	err := c.callWithReturn(&settings, ConnectionGetSettings)
 
 	if err != nil {
 		return nil, err
 	}
 
-	rv := make(ConnectionSettings)
-
-	for k1, v1 := range settings {
-		rv[k1] = make(map[string]interface{})
-
-		for k2, v2 := range v1 {
-			rv[k1][k2] = v2.Value()
-		}
-	}
-
-	return rv, nil
+	return settings, nil
 }
 
 func (c *connection) GetSecrets(settingName string) (ConnectionSettings, error) {
-	var settings map[string]map[string]dbus.Variant
+	var settings ConnectionSettings
 	err := c.callWithReturn(&settings, ConnectionGetSecrets, settingName)
 
 	if err != nil {
 		return nil, err
 	}
 
-	rv := make(ConnectionSettings)
-
-	for k1, v1 := range settings {
-		rv[k1] = make(map[string]interface{})
-
-		for k2, v2 := range v1 {
-			rv[k1][k2] = v2.Value()
-		}
-	}
-
-	return rv, nil
+	return settings, nil
 }
 
 func (c *connection) ClearSecrets() error {

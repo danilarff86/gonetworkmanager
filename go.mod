@@ -1,4 +1,4 @@
-module github.com/Wifx/gonetworkmanager
+module github.com/danilarff86/gonetworkmanager
 
 go 1.12
 

@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/Wifx/gonetworkmanager"
 	"os"
+
+	"github.com/danilarff86/gonetworkmanager"
 )
 
 func main() {
